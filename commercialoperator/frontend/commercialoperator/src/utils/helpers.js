@@ -183,24 +183,14 @@ export default {
     copyObject: function (obj) {
         return JSON.parse(JSON.stringify(obj));
     },
-    getCookie: function (name) {
-        var value = null;
-        if (document.cookie && document.cookie !== '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = cookies[i].trim();
-                if (
-                    cookie.substring(0, name.length + 1).trim() ===
-                    name + '='
-                ) {
-                    value = decodeURIComponent(
-                        cookie.substring(name.length + 1)
-                    );
-                    break;
-                }
-            }
+    getCsrfToken: function () {
+        const token = document.getElementById(
+            'commercialoperator-csrf-token'
+        )?.value;
+        if (!token || token === 'NOTPROVIDED') {
+            throw new Error('CSRF token is missing from the page.');
         }
-        return value;
+        return token;
     },
     namePopover: function ($, vmDataTable) {
         vmDataTable.on('mouseover', '.name_popover', function () {

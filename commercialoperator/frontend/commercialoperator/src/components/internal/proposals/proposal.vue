@@ -1255,7 +1255,7 @@ export default {
             return this.loading.length > 0;
         },
         csrf_token: function () {
-            return helpers.getCookie('csrftoken');
+            return helpers.getCsrfToken();
         },
         proposal_form_url: function () {
             return this.proposal

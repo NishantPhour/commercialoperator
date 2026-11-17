@@ -45,7 +45,9 @@ VERSION_NO = "1.0.1"
 
 SHOW_ROOT_API = env("SHOW_ROOT_API", False)
 SESSION_COOKIE_SECURE = env("SESSION_COOKIE_SECURE", True)
+SESSION_COOKIE_HTTPONLY = env("SESSION_COOKIE_HTTPONLY", True)
 CSRF_COOKIE_SECURE = env("CSRF_COOKIE_SECURE", True)
+CSRF_COOKIE_HTTPONLY = env("CSRF_COOKIE_HTTPONLY", True)
 
 TEMPLATE_TITLE = "Commercial Operator Licensing"
 TEMPLATE_HEADER_LOGO = "/static/commercialoperator/img/logo-park-stay-trunc.gif"

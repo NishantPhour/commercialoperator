@@ -571,7 +571,7 @@ export default {
             return 'Link an organisation';
         },
         csrf_token: function () {
-            return helpers.getCookie('csrftoken');
+            return helpers.getCsrfToken();
         },
     },
     created: function () {

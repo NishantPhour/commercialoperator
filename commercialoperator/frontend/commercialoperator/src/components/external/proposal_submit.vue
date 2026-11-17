@@ -60,6 +60,17 @@
                             any incomplete information or documents missing from
                             the application.</label
                         >
+                        <p
+                            v-if="
+                                proposal.application_type ==
+                                application_type_filming
+                            "
+                        >
+                            Please note it may take up to 4 weeks to process
+                            your application. Further processing time may be
+                            required for complex applications or those that
+                            have additional consultation requirements.
+                        </p>
                         <router-link
                             :to="{ name: 'external-proposals-dash' }"
                             style="margin-top: 15px"
