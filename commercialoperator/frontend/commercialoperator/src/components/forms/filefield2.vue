@@ -149,7 +149,7 @@ export default {
     },
     computed: {
         csrf_token: function () {
-            return helpers.getCookie('csrftoken');
+            return helpers.getCsrfToken();
         },
         has_uploaded_docs: function () {
             return this.uploaded_documents ? true : false;

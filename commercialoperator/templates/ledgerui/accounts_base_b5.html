@@ -116,6 +116,7 @@ document.addEventListener('DOMContentLoaded', loadPrivacyPolicyUrl);
     </div>
 </div>
 
+{% include "commercialoperator/csrf_token.html" %}
 {% vite_asset vue3_entry_script app='default' %}
 
 {% endblock %}	

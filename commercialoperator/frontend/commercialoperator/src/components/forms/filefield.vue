@@ -148,7 +148,7 @@ export default {
     },
     computed: {
         csrf_token: function () {
-            return helpers.getCookie('csrftoken');
+            return helpers.getCsrfToken();
         },
         proposal_document_action: function () {
             return this.proposal_id

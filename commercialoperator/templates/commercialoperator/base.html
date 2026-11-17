@@ -36,6 +36,7 @@
                 "user_is_authenticated": {% if request.user.is_authenticated %}true{% else %}false{% endif %},
             }
     </script>
+    {% include "commercialoperator/csrf_token.html" %}
     {% vite_asset vue3_entry_script %}
 {% endblock custom_js %}
 {% block menu_items_left_brand %}

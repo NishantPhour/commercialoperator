@@ -73,8 +73,7 @@ window.fetch = ((orig) => {
             headers = new Headers(args[0].headers);
         }
 
-        if (sameOrigin)
-            headers.set('X-CSRFToken', helpers.getCookie('csrftoken'));
+        if (sameOrigin) headers.set('X-CSRFToken', helpers.getCsrfToken());
         if (
             sameOrigin &&
             args.length > 1 &&

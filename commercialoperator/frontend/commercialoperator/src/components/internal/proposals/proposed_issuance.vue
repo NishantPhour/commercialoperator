@@ -264,7 +264,7 @@ export default {
     },
     computed: {
         csrf_token: function () {
-            return helpers.getCookie('csrftoken');
+            return helpers.getCsrfToken();
         },
         showError: function () {
             var vm = this;

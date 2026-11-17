@@ -445,7 +445,7 @@ export default {
             );
         },
         csrf_token: function () {
-            return helpers.getCookie('csrftoken');
+            return helpers.getCsrfToken();
         },
         compliance_fee_url: function () {
             return this.compliance

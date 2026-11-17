@@ -473,7 +473,7 @@ export default {
             return 'Link an organisation';
         },
         csrf_token: function () {
-            return helpers.getCookie('csrftoken');
+            return helpers.getCsrfToken();
         },
         hasErrorMessage: function () {
             let vm = this;

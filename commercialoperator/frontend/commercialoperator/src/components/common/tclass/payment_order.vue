@@ -203,7 +203,7 @@ export default {
     },
     computed: {
         csrf_token: function () {
-            return helpers.getCookie('csrftoken');
+            return helpers.getCsrfToken();
         },
         selected_licence: function () {
             return (
