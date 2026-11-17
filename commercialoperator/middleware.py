@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.urls import reverse
 from django.shortcuts import redirect
 from django.http import HttpResponse
@@ -16,6 +17,30 @@ from commercialoperator.components.proposals.models import Proposal
 from commercialoperator.helpers import is_internal
 
 CHECKOUT_PATH = re.compile("^/ledger/checkout/checkout")
+
+
+class ContentSecurityPolicyMiddleware:
+    """Adds an enforced or report-only CSP header to every response."""
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+        self.header_name = (
+            "Content-Security-Policy-Report-Only"
+            if settings.CSP_REPORT_ONLY
+            else "Content-Security-Policy"
+        )
+        self.policy = settings.CONTENT_SECURITY_POLICY
+        self.ledger_policy = settings.CONTENT_SECURITY_POLICY_LEDGER
+
+    def __call__(self, request):
+        response = self.get_response(request)
+        policy = (
+            self.ledger_policy
+            if request.path_info.startswith("/ledger-ui/")
+            else self.policy
+        )
+        response[self.header_name] = policy
+        return response
 
 
 class FirstTimeNagScreenMiddleware(object):
