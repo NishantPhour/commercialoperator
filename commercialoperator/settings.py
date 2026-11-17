@@ -145,6 +145,9 @@ MIDDLEWARE_CLASSES += [
     "commercialoperator.middleware.ManagementCommandQueueMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
+MIDDLEWARE_CLASSES.insert(
+    0, "commercialoperator.middleware.ContentSecurityPolicyMiddleware"
+)
 MIDDLEWARE = MIDDLEWARE_CLASSES
 MIDDLEWARE_CLASSES = None
 
@@ -448,6 +451,39 @@ DJANGO_VITE = {
 }
 
 VUE3_ENTRY_SCRIPT = env("VUE3_ENTRY_SCRIPT", "src/main.js")
+
+CSP_REPORT_ONLY = decouple.config("CSP_REPORT_ONLY", default=False, cast=bool)
+_CSP_VITE_HTTP = ""
+_CSP_VITE_WS = ""
+if DJANGO_VITE_DEV_MODE:
+    _vite_host = DJANGO_VITE["default"]["dev_server_host"]
+    _vite_port = DJANGO_VITE["default"]["dev_server_port"]
+    _CSP_VITE_HTTP = f" http://{_vite_host}:{_vite_port}"
+    _CSP_VITE_WS = f" ws://{_vite_host}:{_vite_port}"
+
+def _content_security_policy(allow_ledger_eval=False):
+    ledger_eval = " 'unsafe-eval'" if allow_ledger_eval else ""
+    return "; ".join(
+        [
+            "default-src 'self'",
+            f"script-src 'self' 'unsafe-inline'{ledger_eval}{_CSP_VITE_HTTP}",
+            f"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com{_CSP_VITE_HTTP}",
+            f"img-src 'self' data: blob: https:{_CSP_VITE_HTTP}",
+            f"font-src 'self' data: https://fonts.gstatic.com{_CSP_VITE_HTTP}",
+            f"connect-src 'self'{_CSP_VITE_HTTP}{_CSP_VITE_WS}",
+            "object-src 'none'",
+            "base-uri 'self'",
+            "frame-ancestors 'none'",
+            # Hosted payment redirects can leave the application's origin.
+            "form-action 'self' https:",
+            "upgrade-insecure-requests",
+        ]
+    )
+
+
+CONTENT_SECURITY_POLICY = _content_security_policy()
+# The shared Ledger account scripts use string-based timers.
+CONTENT_SECURITY_POLICY_LEDGER = _content_security_policy(allow_ledger_eval=True)
 
 CONTAINER_IMAGE_TAG = env("CONTAINER_IMAGE_TAG", "CONTAINER_IMAGE_TAG ENV Not Set")
 
