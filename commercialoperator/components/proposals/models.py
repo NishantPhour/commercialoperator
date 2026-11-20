@@ -3432,6 +3432,9 @@ class Proposal(DirtyFieldsMixin, RevisionedMixin):
                     proposal.other_details.insurance_expiry = None
                     proposal.other_details.preferred_licence_period = None
                     proposal.other_details.nominated_start_date = None
+                    proposal.other_details.credit_fees = False
+                    proposal.other_details.credit_docket_books = False
+                    proposal.other_details.docket_books_number = ""
                     ProposalAccreditation.objects.filter(
                         proposal_other_details__proposal=proposal
                     ).delete()
