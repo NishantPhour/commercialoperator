@@ -5848,12 +5848,22 @@ def duplicate_tclass(p):
             acc.id = None
             acc.save()
             new_accreditations.append(acc)
+        new_information_standards = list(other_details.information_standards.all())
+        new_emission_standards = list(other_details.emission_standards.all())
         other_details.id = None
         other_details.proposal = p
         other_details.save()
         for new_acc in new_accreditations:
             new_acc.proposal_other_details = other_details
             new_acc.save()
+        for standard in new_information_standards:
+            standard.id = None
+            standard.proposal_other_details = other_details
+            standard.save()
+        for standard in new_emission_standards:
+            standard.id = None
+            standard.proposal_other_details = other_details
+            standard.save()
     except ProposalOtherDetails.DoesNotExist:
         other_details = ProposalOtherDetails.objects.create(proposal=p)
 
