@@ -32,7 +32,7 @@
                     <div class="card-header">Park Entry Fees</div>
                     <div class="card-body">
                         <p class="card-text">
-                            Entry fees apply to passenger
+                            Entry fees apply to passengers
                             <a :href="payment_help_url" target="_blank"
                                 ><i
                                     class="fas fa-circle-question"
