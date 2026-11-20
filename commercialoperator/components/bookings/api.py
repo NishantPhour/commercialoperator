@@ -2,6 +2,7 @@ from django.db.models import Q
 from django.utils import timezone
 from rest_framework import viewsets
 from rest_framework.decorators import action as list_route
+from rest_framework.response import Response
 from rest_framework_datatables.pagination import DatatablesPageNumberPagination
 
 from commercialoperator.components.bookings.models import (
@@ -9,6 +10,8 @@ from commercialoperator.components.bookings.models import (
     BookingInvoice,
     ParkBooking,
 )
+from commercialoperator.components.main.models import Park
+from commercialoperator.components.main.serializers import ParkFilterSerializer
 from commercialoperator.components.bookings.serializers import (
     BookingSerializer,
     DTParkBookingSerializer,
@@ -41,6 +44,14 @@ class BookingPaginatedViewSet(viewsets.ReadOnlyModelViewSet):
                 Q(proposal__org_applicant_id__in=cols_org_ids)
                 | Q(proposal__submitter_id=user.id)
             ).exclude(booking_type=Booking.BOOKING_TYPE_TEMPORARY)
+
+    @list_route(methods=["GET"], detail=False)
+    def parks_with_bookings(self, request, *args, **kwargs):
+        parks = Park.objects.filter(
+            bookings__booking__in=self.get_queryset()
+        ).distinct()
+        serializer = ParkFilterSerializer(parks, many=True)
+        return Response(serializer.data)
 
     @list_route(
         methods=[

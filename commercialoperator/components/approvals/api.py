@@ -33,7 +33,6 @@ from commercialoperator.components.approvals.serializers import (
 )
 from commercialoperator.components.organisations.models import (
     Organisation,
-    OrganisationContact,
 )
 from commercialoperator.components.segregation.decorators import basic_exception_handler
 from rest_framework_datatables.filters import DatatablesFilterBackend
@@ -204,20 +203,20 @@ class ApprovalPaymentFilterViewSet(generics.ListAPIView):
 
     def get_queryset(self):
         """
-        Return All approvals associated with user (proxy_applicant and org_applicant)
+        Return current approvals for the user's linked organisations or personal licences.
         """
         user = self.request.user
 
-        # get all orgs associated with user
-        user_org_ids = OrganisationContact.objects.filter(email=user.email).values_list(
-            "organisation_id", flat=True
-        )
+        user_org_ids = retrieve_delegate_organisation_ids(user.id)
 
         now = datetime.now().date()
         approval_qs = Approval.objects.filter(
-            Q(proxy_applicant=user)
-            | Q(org_applicant_id__in=user_org_ids)
-            | Q(submitter_id=user)
+            Q(org_applicant_id__in=user_org_ids)
+            | (
+                Q(org_applicant__isnull=True)
+                & (Q(proxy_applicant=user) | Q(submitter_id=user.id))
+            ),
+            status=Approval.APPROVAL_STATUS_CURRENT,
         )
         approval_qs = approval_qs.exclude(
             current_proposal__application_type__name="E Class"

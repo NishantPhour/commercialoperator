@@ -11,7 +11,7 @@
                         :form-collapse="false"
                         label="Applicant"
                         index="license_applicant"
-                        subtitle="The applicant will be the licensee"
+                        subtitle="The applicant will be the licence holder"
                     >
                         <template #header-extra>
                             <span
@@ -668,7 +668,7 @@ export default {
                     'select_proposal_apply_license_type',
                     'select_proposal_apply_license_type_parent',
                     'selected_application_id',
-                    'Select a License Type *',
+                    'Select a Licence Type *',
                     false
                 )
                 .on('select2:select', function () {
@@ -740,7 +740,7 @@ export default {
                 'select_proposal_apply_copy_license',
                 'select_proposal_apply_copy_license_parent',
                 'selected_copy_from',
-                'Select an Event License to copy from *',
+                'Select an Event Licence to copy from *',
                 false
             );
         });

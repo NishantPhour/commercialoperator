@@ -234,7 +234,7 @@ export default {
                 'select_id_licence',
                 null,
                 'selected_licence_id',
-                'Select a License',
+                'Select a Licence',
                 true,
                 0,
                 null

@@ -104,7 +104,7 @@
                                     <label
                                         class="form-check-label fw-normal"
                                         for="searchApproval"
-                                        >License</label
+                                        >Licence</label
                                     >
                                 </div>
                                 <div class="form-check col">

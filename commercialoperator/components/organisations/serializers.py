@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.conf import settings
 from rest_framework import serializers
 from rest_framework import status
@@ -33,6 +34,15 @@ from commercialoperator.helpers import is_commercialoperator_admin
 import logging
 
 logger = logging.getLogger(__name__)
+
+
+class AnnualChargeDateField(serializers.DateField):
+    def __init__(self, **kwargs):
+        super().__init__(format="%d/%m", input_formats=["%d/%m"], **kwargs)
+
+    @staticmethod
+    def datetime_parser(value, input_format):
+        return datetime.strptime(value + "/1900", input_format + "/%Y")
 
 
 class LedgerOrganisationSerializer(serializers.ModelSerializer):
@@ -124,9 +134,7 @@ class OrganisationSerializer(serializers.ModelSerializer):
     application_discount = serializers.SerializerMethodField(read_only=True)
     apply_licence_discount = serializers.SerializerMethodField(read_only=True)
     licence_discount = serializers.SerializerMethodField(read_only=True)
-    charge_once_per_year = serializers.DateField(
-        format="%d/%m", input_formats=["%d/%m"], required=False, allow_null=True
-    )
+    charge_once_per_year = AnnualChargeDateField(required=False, allow_null=True)
     last_event_application_fee_date = serializers.DateField(
         format="%d/%m/%Y", input_formats=["%d/%m/%Y"], required=False, allow_null=True
     )
@@ -370,9 +378,7 @@ class DetailsSerializer(serializers.ModelSerializer):
 
 
 class SaveDiscountSerializer(serializers.ModelSerializer):
-    charge_once_per_year = serializers.DateField(
-        format="%d/%m", input_formats=["%d/%m"], required=False, allow_null=True
-    )
+    charge_once_per_year = AnnualChargeDateField(required=False, allow_null=True)
 
     class Meta:
         model = Organisation

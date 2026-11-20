@@ -445,7 +445,7 @@ export default {
                                     "<i class='fas fa-file-pdf' style='color:red'></i>";
                                 var message = 'This is a migrated licence';
 
-                                const title = `License ${full.lodgement_number}`;
+                                const title = `Licence ${full.lodgement_number}`;
                                 popTemplate = helpers.initialisePopoverTemplate(
                                     title,
                                     ''
