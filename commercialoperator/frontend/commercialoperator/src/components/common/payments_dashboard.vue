@@ -740,7 +740,7 @@ export default {
             });
 
             helpers
-                .fetchUrl(api_endpoints.parks_all)
+                .fetchUrl(api_endpoints.parks_with_bookings)
                 .then((response) => {
                     let parksArray = [];
 

@@ -76,6 +76,7 @@ export default {
         '/api/proposal_paginated/qaofficer_internal/?format=datatables',
     booking_paginated_internal:
         '/api/booking_paginated/bookings_external/?format=datatables',
+    parks_with_bookings: '/api/booking_paginated/parks_with_bookings/',
     parkbooking_paginated_internal:
         '/api/parkbooking_paginated/park_bookings/?format=datatables',
     district_proposals_paginated_internal:
